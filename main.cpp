@@ -1,5 +1,5 @@
 #include "CTrameGPS.h"
-#include "ccalcul.h"
+#include "codometre.h"
 #include "INIReader.h"
 #include <iostream>
 #include <fstream>
@@ -28,7 +28,7 @@ int main()
 
     fstream Fichier;
     string Trame;
-    CCalcul Calcul;
+    COdometre Odometre;
     double KilometrageTotal;
 
     CINIReader reader("projet_neis.ini");
@@ -58,18 +58,18 @@ int main()
             if(TrameGPS->GetIdentifiant() == "GPRMC")
             {
                 cout << Trame << endl;
-                Calcul.Setvn(TrameGPS->GetVitesse());
-                Calcul.SettnStr(TrameGPS->GetTemps());
-                if(Calcul.Getvn_1() != 0)
+                Odometre.Setvn(TrameGPS->GetVitesse());
+                Odometre.SettnStr(TrameGPS->GetTemps());
+                if(Odometre.Getvn_1() != 0)
                 {
                     //Calcul ici
-                    KilometrageTotal = Calcul.calculKilometrage();
+                    KilometrageTotal = Odometre.calculKilometrage();
                     cout << "Kilometrage -> " << KilometrageTotal << endl;
                 }
                 else
                 {
-                    Calcul.Setvn_1(Calcul.Getvn());
-                    Calcul.Settn_1Str(Calcul.GettnStr());
+                    Odometre.Setvn_1(Odometre.Getvn());
+                    Odometre.Settn_1Str(Odometre.GettnStr());
                 }
 
                 this_thread::sleep_for( chrono::milliseconds( 1000 ) );

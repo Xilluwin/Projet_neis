@@ -67,10 +67,6 @@ string CTrameGPS::GetIdentifiant()
     return IdentifiantTrame;
 }
 
-float CTrameGPS::GetNoeud()
-{
-    return fNoeud;
-}
 
 
 

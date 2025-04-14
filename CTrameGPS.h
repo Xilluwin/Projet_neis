@@ -18,22 +18,18 @@ private:
     float   fLongitude;
     string  Date;
     string  Temps;
-    float fNoeud;
 
     void TraiterTrame();
     unsigned char ASCIIHexToInt(char * pASCII);
     bool ControlerIntegrite();
     bool IdentifierTrame();
     string ExtraireChamp(unsigned char ucRangChamp);
-    float NoeudToMetersPerSecond(float fNoeud);
-    int TempsToSeconds(string Temps);
 
 public:
     CTrameGPS( string );
     ~CTrameGPS();
 
-    float calculDistanceKilometre(float vn_1, float vn, string tnStr, string tn_1Str);
-    string GetHorodatageForDB();
+    string GetHorodatageForDB();  // idk about that one boss
     string  GetTrame();
     bool    GetIntegrite();
     float   GetVitesse();
@@ -42,7 +38,6 @@ public:
     string  GetTemps();
     string  GetDate();
     string  GetIdentifiant();
-    float   GetNoeud();
 
 };
 
