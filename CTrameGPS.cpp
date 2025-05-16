@@ -52,6 +52,18 @@ string  CTrameGPS::GetTemps()
     return Temps;
 }
 
+double  CTrameGPS::GetTempsHeure()
+{
+    double hours, minutes, seconds;
+
+    hours = stoi( this->Temps.substr( 0, 2) );
+    minutes = stoi( this->Temps.substr(2, 2) );                     
+    seconds = stoi( this->Temps.substr(4, 2) );
+    double tempsheure = hours + minutes / 60.0 + seconds / 3600.0;
+
+    return tempsheure;
+}
+
 float   CTrameGPS::GetVitesse()
 {
     return fVitesse;
@@ -123,7 +135,6 @@ void CTrameGPS::TraiterTrame()
         if(ExtraireChamp(4) != "N") fLatitude *= -1.0f;
         if(ExtraireChamp(6) != "W") fLongitude *= -1.0f;
 
-        fNoeud = stof(ExtraireChamp(7));
         fVitesse = stof(ExtraireChamp(7)) * 1.852f;
         Date = ExtraireChamp(9);
         Temps = ExtraireChamp(1);

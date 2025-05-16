@@ -36,6 +36,7 @@ public:
     float   GetLatitude();
     float   GetLongitude();
     string  GetTemps();
+    double  GetTempsHeure();
     string  GetDate();
     string  GetIdentifiant();
 

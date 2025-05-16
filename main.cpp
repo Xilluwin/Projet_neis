@@ -7,6 +7,7 @@
 #include <chrono>
 #include <iomanip>
 #include <string>
+#include <libserial/SerialStream.h>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ int main()
 
 
     fstream Fichier;
+    fstream PortSerie;
     string Trame;
     COdometre Odometre;
     double KilometrageTotal;
@@ -43,7 +45,7 @@ int main()
         
 
 
-    Fichier.open( "TramesGPS.nmea", fstream::in );
+    /*Fichier.open( "TramesGPS.nmea", fstream::in );
     if ( Fichier.is_open() == false )
     {
         cout << "Pb fichier" << endl;
@@ -51,28 +53,42 @@ int main()
     }
     while ( Fichier.eof() == false )
     {
-        Fichier >> Trame;
+        Fichier >> Trame;*/
+    
+    PortSerie.open("ttyACM0", ios_base::in);
+    if(PortSerie.is_open() == false)
+    {
+        cout << "pb port serie" << endl;
+        return 0;
+    }
+    while(PortSerie.eof() == false)
+    {
+
+    
+        PortSerie >> Trame;
+
         TrameGPS = new CTrameGPS(Trame);
         if(TrameGPS->GetIdentifiant() == "GPRMC" || TrameGPS->GetIdentifiant() == "GPGGA")
         {
             if(TrameGPS->GetIdentifiant() == "GPRMC")
             {
                 cout << Trame << endl;
-                Odometre.Setvn(TrameGPS->GetVitesse());
-                Odometre.SettnStr(TrameGPS->GetTemps());
-                if(Odometre.Getvn_1() != 0)
+                /*Odometre.Setvn(TrameGPS->GetVitesse());
+                Odometre.SettnStr(TrameGPS->GetTemps());*/
+                cout << TrameGPS->GetTempsHeure() << endl;
+                cout << TrameGPS->GetVitesse() << endl;
+                if(Odometre.GetVitesse_n_1() != 0)
                 {
                     //Calcul ici
-                    KilometrageTotal = Odometre.calculKilometrage();
+                    KilometrageTotal = Odometre.AjouterNouveauPoint(TrameGPS->GetTempsHeure(), TrameGPS->GetVitesse());
                     cout << "Kilometrage -> " << KilometrageTotal << endl;
                 }
                 else
                 {
-                    Odometre.Setvn_1(Odometre.Getvn());
-                    Odometre.Settn_1Str(Odometre.GettnStr());
+                    Odometre.AjouterN_1(TrameGPS->GetTempsHeure(), TrameGPS->GetVitesse());
                 }
 
-                this_thread::sleep_for( chrono::milliseconds( 1000 ) );
+                this_thread::sleep_for( chrono::milliseconds( 1000 ) ); //vitesse a changer surement
             }
             if(TrameGPS->GetIdentifiant() == "GPGGA")
             {
@@ -84,7 +100,7 @@ int main()
 
 
     }
-    Fichier.close();
+    //Fichier.close();
 
     return 0;
 }

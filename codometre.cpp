@@ -2,17 +2,62 @@
 
 COdometre::COdometre()
 {
+
+
+    this->Kilometrage = 0.0;
+    this->Temps_n_1 = 0.0;
+    this->Vitesse_n_1 = 0.0;
+/*    
     vn = 0;
     vn_1 = 0;
     tnStr = "";
     tn_1Str = "";
-    Kilometrage = 0;
+  
     tn = 0;
     tn_1 = 0;
-
+*/
 }
 
 
+double COdometre::GetKilometrage()
+{
+    return this->Kilometrage;
+}
+
+void COdometre::RemiseAZero()
+{
+    this->Kilometrage = 0.0;
+}
+
+void COdometre::AjouterN_1(double TempsEnHeure, double VitesseKmhh)
+{
+    this->Temps_n_1 = TempsEnHeure;
+    this->Vitesse_n_1 = VitesseKmhh;
+}
+
+double COdometre::AjouterNouveauPoint( double TempsHeureNouveauPoint, double VitesseKmhNouveauPoint )
+{
+double Distance;
+
+    // Calcul de la distance entre le nouveau point et le point précédent
+    Distance = ( ( VitesseKmhNouveauPoint + this->Vitesse_n_1 ) / 2 ) * ( TempsHeureNouveauPoint - this->Temps_n_1 );
+
+    // Mise à jour du kilométrage cumulé
+    this->Kilometrage = this->Kilometrage + Distance;
+
+    // Mémorise le point présent qui devient le point précédent pour le prochain ajout
+    this->Vitesse_n_1 = VitesseKmhNouveauPoint;
+    this->Temps_n_1 = TempsHeureNouveauPoint;
+
+    return this->Kilometrage;
+}
+
+double COdometre::GetVitesse_n_1()
+{
+    return Vitesse_n_1;
+}
+
+/*
 // Fonction pour convertir une chaîne "HHMMSS" en heures
 double COdometre::TempsToHeures(string Temps)
 {
@@ -23,7 +68,8 @@ double COdometre::TempsToHeures(string Temps)
     double tempoheure = hours * 3600 + minutes * 60 + seconds;
     return tempoheure / 3600.0;
 }
-
+*/
+/*
 double COdometre::calculKilometrage()
 {
     // Convertir les temps en heures
@@ -77,3 +123,4 @@ void COdometre::Setvn_1(double a)
     vn_1 = a;
 }
 
+*/

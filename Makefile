@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-Wall -std=c++11
-LDFLAGS=-g -pthread
+LDFLAGS=-g -pthread -lserial
 EXEC=Test
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
