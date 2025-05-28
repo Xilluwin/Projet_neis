@@ -258,9 +258,3 @@ string CTrameGPS::ExtraireChamp(unsigned char ucRangChamp)
 
 }
 
-/*string CTrameGPS::GetHorodatageInDatetime()
-{
-    Horodatage = "20" + Date.substr(4) + "-" + Date.substr(2,4) + "-" + Date.substr(0,2) + " " + Temps.substr(0,2) + ":" + Temps.substr(2,4) + ":" + Temps.substr(4,6);
-    const char* cHorodatage = Horodatage.c_str();
-    return cHorodatage;
-}*/
