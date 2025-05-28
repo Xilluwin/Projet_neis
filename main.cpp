@@ -1,6 +1,8 @@
 #include "CTrameGPS.h"
 #include "codometre.h"
 //#include "INIReader.h"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
 #include <iostream>
 #include <fstream>
 #include <thread>
@@ -8,11 +10,10 @@
 #include <iomanip>
 #include <string>
 #include <libserial/SerialStream.h>
-#include <mini/ini.h>
+//#include <mini/ini.h>
 
 using namespace std;
 using namespace LibSerial;
-using namespace mINI;
 
 #define Arret 0;
 #define Marche 1;
@@ -56,15 +57,22 @@ int main(int argc, char** argv)
     string strZoneBLong;
     size_t PositionVirgule;
 
+    boost::property_tree::ptree pt;
+    boost::property_tree::ini_parser::read_ini("test.ini", pt);
+    string strKilometrageTest = pt.get < string > ("technicien.kilometrage", "0");
+    cout << strKilometrageTest << endl;
+    double Test = stod(strKilometrageTest) + 2;
+    pt.put("technicien.kilometrage", Test);
+    boost::property_tree::ini_parser::write_ini("test.ini", pt);
 
-    INIFile Fichier("projet_neis")
+    /*INIFile Fichier("projet_neis")
     INIStructure    ini;
     string  strKilometrageTest = ini["technicien"]["kilometrage"];
     cout << strKilometrageTest << endl;
     double Test = stod(strKilometrageTest) + 2;
     ini["technicien"]["kilometrage"] = to_string(Test);
 
-    /*CINIReader reader("projet_neis.ini");
+    CINIReader reader("projet_neis.ini");
 
     if (reader.ParseError() < 0) 
     {
@@ -158,7 +166,8 @@ int main(int argc, char** argv)
                     if(CompteurArret == 600)
                     {
                         EtatVoiture = Arret;
-                        KilometrageTotal = KilometrageTotal + reader.GetInteger( "technicien", "kilometrage", 0 );
+                        //KilometrageTotal = KilometrageTotal + reader.GetInteger( "technicien", "kilometrage", 0 );
+                        KilometrageTotal = KilometrageTotal + pt.get < int > ("technicien.kilometrage");
                         //Ecrire la valeur de KilometrageTotal dans le fichier ini
                     }  
                     
